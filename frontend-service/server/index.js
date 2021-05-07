@@ -2,10 +2,22 @@ const express = require('express')
 const path = require('path')
 const app = express()
 
+const {
+    NODE_ENV
+} = process.env
 
 app.use(require('body-parser').json())
 
-app.use(express.static(path.join(__dirname, '..', 'public')))
+let appHtmlDir;
+
+if (NODE_ENV === 'dev') {
+    appHtmlDir = 'public'
+} else {
+    appHtmlDir = 'build'
+}
+
+console.log(`Serving from ${appHtmlDir}`)
+app.use(express.static(path.join(__dirname, '..', appHtmlDir)))
 
 app.listen(3000, () => console.log('Listening on port 3000'))
 

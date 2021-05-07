@@ -1,5 +1,5 @@
 import './App.css';
-import JobList from '../Jobs/JobList'
+import JobList from '../JobList'
 import React from 'react'
 import { getJobs } from '../../adapters/jobs'
 
