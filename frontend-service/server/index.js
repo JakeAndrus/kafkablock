@@ -1,5 +1,7 @@
 const express = require('express')
 const path = require('path')
+const kafka = require('kafka-node')
+const WebSocketServer = require('websocket').server
 const app = express()
 
 const {
@@ -8,14 +10,25 @@ const {
 
 app.use(require('body-parser').json())
 
-let appHtmlDir;
+const client = new kafka.KafkaClient('localhost:2181')
+const Consumer = kafka.Consumer
+const consumer = new Consumer(
+    client,
+    [{ topic: 'quickstart-events', partition: 0 }],
+    { autoCommit: false}
+)
 
+consumer.on('message', function (message) {
+    console.log('message recv')
+    console.log(message)
+})
+
+let appHtmlDir;
 if (NODE_ENV === 'dev') {
     appHtmlDir = 'public'
 } else {
     appHtmlDir = 'build'
 }
-
 console.log(`Serving from ${appHtmlDir}`)
 app.use(express.static(path.join(__dirname, '..', appHtmlDir)))
 

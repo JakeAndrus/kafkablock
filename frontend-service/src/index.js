@@ -4,6 +4,26 @@ import './index.css';
 import App from './components/App/App.js';
 import reportWebVitals from './reportWebVitals';
 
+function webSocketInvoke() {
+  if ('WebSocket' in window) {
+          console.log('websocket supported')
+          const ws = new WebSocket('wss://172.19.149.140:3000/','echo-protocol')
+          ws.onopen = function() {
+                  console.log('connected')
+          }
+          ws.onmessage = function(evt) {
+                  const msg = evt.data
+                  console.log(evt)
+          }
+          ws.onclose = function() {
+                  console.log('connection closed')
+          }
+  } else {
+          console.log('websocket not connect')
+  }
+}
+webSocketInvoke()
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
