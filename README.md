@@ -1,2 +1,2 @@
-# jobgator
-Personal Job Aggregator
+# kafkablock
+Experiment with blockchain transactions, kafka, websockets, and react
